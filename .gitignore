@@ -9,6 +9,4 @@ Makefile
 compile_commands.json
 Lib
 bin
-vendor/glfw
-vendor/imgui
 .clangd
