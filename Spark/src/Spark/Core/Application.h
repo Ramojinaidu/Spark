@@ -1,22 +1,28 @@
 #pragma once
 #include "Event.h"
-#include "GLFW/glfw3.h"
+#include "Spark/Core/Window.h"
+#include "Spark/Core/Window.h"
 
 namespace Spark
 {
+    struct ApplicationSpecs{
+        std::string Title;
+        ApplicationSpecs(std::string title = "Spark") : Title(title) {}
+    };
 
     class Application {
 
     public:
-        Application();
+        Application(const ApplicationSpecs& specs = ApplicationSpecs());
         ~Application();
         void Run();
         void OnEvent(Event& event);
         void OnStop(){m_Running = false;}
 
     private:
+        ApplicationSpecs m_Specs;
         bool m_Running = true;
-        GLFWwindow* window = nullptr;
+        std::unique_ptr<Window> m_Window = nullptr;
 
     };
 

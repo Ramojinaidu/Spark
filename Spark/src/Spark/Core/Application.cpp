@@ -1,21 +1,15 @@
 #define GLFW_INCLUDE_NONE
-#include "Application.h"
+#include "Spark/Core/Application.h"
+#include "Spark/Core/Window.h"
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 
 namespace Spark
 {
-    Application::Application()
+    Application::Application(const ApplicationSpecs& specs)
     {
-        if (!glfwInit()) {
-            glfwTerminate();
-        }
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-        glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-        window = glfwCreateWindow(600, 400, "Spark", nullptr, nullptr);
-        glfwMakeContextCurrent(window);
-        glfwSwapInterval(1);
+        m_Specs = specs;
+        m_Window = Window::Create(m_Specs.Title);
 
         gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         glViewport(0, 0, 600, 400);
@@ -23,19 +17,17 @@ namespace Spark
 
     Application::~Application()
     {
-        glfwDestroyWindow(window);
-        glfwTerminate();
     }
 
     void Application::Run()
     {
-        while (!glfwWindowShouldClose(window)) {
+        while (m_Running) {
+
 
             glClearColor(0.2,0.2,0.2,0.2);
             glClear(GL_COLOR_BUFFER_BIT);
+            m_Window->OnUpdate();
 
-            glfwSwapBuffers(window);
-            glfwPollEvents();
 
         }
 
