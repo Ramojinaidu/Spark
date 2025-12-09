@@ -1,5 +1,7 @@
 
 
+.zed
+.cache
 CMakeFiles
 cmake_*
 CMakeCache.txt
@@ -9,3 +11,4 @@ Lib
 bin
 vendor/glfw
 vendor/imgui
+.clangd
