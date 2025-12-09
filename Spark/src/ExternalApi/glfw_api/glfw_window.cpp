@@ -1,4 +1,5 @@
 #include "glfw_window.h"
+#include "Spark/Events/ApplicationEvents.h"
 #include <GLFW/glfw3.h>
 
 namespace Spark {
@@ -7,6 +8,7 @@ namespace Spark {
         m_Data.title = props.Title;
         m_Data.width = props.Width;
         m_Data.height = props.Height;
+        m_Data.callback = nullptr;
 
         if (!glfwInit()) {
             glfwTerminate();
@@ -23,6 +25,22 @@ namespace Spark {
         glfwMakeContextCurrent(m_Window);
         SetVSync(true);
 
+        glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			data.width = width;
+			data.height = height;
+
+			WindowResizeEvent event(width, height);
+			data.callback(event);
+		});
+
+        glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
+		{
+			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			WindowCloseEvent event;
+			data.callback(event);
+		});
     }
 
     GlfwWindow::~GlfwWindow() {
@@ -32,10 +50,6 @@ namespace Spark {
     void GlfwWindow::OnUpdate() {
         glfwPollEvents();
         glfwSwapBuffers(m_Window);
-    }
-
-    bool GlfwWindow::IsClosed() const {
-        return glfwWindowShouldClose(m_Window);
     }
 
     void GlfwWindow::SetVSync(bool enabled) {
@@ -53,6 +67,10 @@ namespace Spark {
 
     bool GlfwWindow::IsVSync() const {
         return m_Data.vsync;
+    }
+
+    void GlfwWindow::SetWindowEventCallback(WindowEventCallbackFunc callback) {
+        m_Data.callback = callback;
     }
 
 }

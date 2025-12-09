@@ -2,6 +2,9 @@
 #include <cstdint>
 #include <memory>
 #include <string>
+#include <functional>
+#include "Spark/Events/Event.h"
+
 
 namespace Spark
 {
@@ -17,20 +20,23 @@ namespace Spark
             : Title(title), Width(width), Height(height) {}
     };
 
+    using WindowEventCallbackFunc = std::function<void(Event&)>;
+
     class Window
     {
     public:
         virtual ~Window()=default;
 
         virtual void OnUpdate()=0;
-        virtual bool IsClosed() const = 0;
+
         virtual void SetVSync(bool enabled) = 0;
         virtual bool IsVSync() const = 0;
+
+        virtual void SetWindowEventCallback(WindowEventCallbackFunc callback) = 0;
 
         virtual uint32_t GetWidth() const = 0;
         virtual uint32_t GetHeight() const = 0;
 
         static std::unique_ptr<Window> Create(const WindowProps& props = WindowProps());
-
     };
 }

@@ -1,7 +1,8 @@
 #pragma once
-#include "Event.h"
+#include "Spark/Events/Event.h"
 #include "Spark/Core/Window.h"
 #include "Spark/Core/Window.h"
+#include "Spark/Events/ApplicationEvents.h"
 
 namespace Spark
 {
@@ -17,7 +18,7 @@ namespace Spark
         ~Application();
         void Run();
         void OnEvent(Event& event);
-        void OnStop(){m_Running = false;}
+        bool OnWindowClose(WindowCloseEvent& event);
 
     private:
         ApplicationSpecs m_Specs;
