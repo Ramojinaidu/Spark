@@ -1,11 +1,12 @@
 #include "Spark/Core/Application.h"
-#include "Spark/Events/Event.h"
+#include "Spark/Core/Core.h"
 #include "Spark/Events/ApplicationEvents.h"
-#include "Spark/Core/Window.h"
+
 
 #define GLFW_INCLUDE_NONE
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
+#include <iostream>
 
 namespace Spark
 {
@@ -14,7 +15,7 @@ namespace Spark
         m_Specs = specs;
         m_Window = Window::Create(m_Specs.Title);
 
-        m_Window->SetWindowEventCallback(std::bind(&Application::OnEvent, this, std::placeholders::_1));
+        m_Window->SetWindowEventCallback(SP_BIND_FUNC(Application::OnEvent));
 
         gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         glViewport(0, 0, 600, 400);
@@ -33,21 +34,28 @@ namespace Spark
             glClear(GL_COLOR_BUFFER_BIT);
             m_Window->OnUpdate();
 
-
         }
 
     }
 
     void Application::OnEvent(Event& e)
     {
+        std::cout<<e<<"\n";
         EventDispatcher dispatcher(e);
-        dispatcher.Dispatch<WindowCloseEvent>(std::bind(&Application::OnWindowClose, this, std::placeholders::_1));
+        dispatcher.Dispatch<WindowCloseEvent>(SP_BIND_FUNC(Application::OnWindowClose));
+        dispatcher.Dispatch<WindowMinimizeEvent>(SP_BIND_FUNC(Application::OnWindowMinimize));
 
     }
 
     bool Application::OnWindowClose(WindowCloseEvent& event)
     {
         m_Running = false;
+        return true;
+    }
+
+    bool Application::OnWindowMinimize(WindowMinimizeEvent& event)
+    {
+        m_Minimized = event.IsMinimized();
         return true;
     }
 

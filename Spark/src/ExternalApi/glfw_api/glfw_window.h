@@ -1,9 +1,11 @@
 #pragma once
 #include "Spark/Core/Window.h"
+#include "Spark/Events/Event.h"
 #include <GLFW/glfw3.h>
 
 namespace Spark {
 
+    static inline KeyAction GlfwtoSpKeyAction(const int& action);
 
     class GlfwWindow : public Window {
     public:
@@ -12,11 +14,13 @@ namespace Spark {
 
         virtual void OnUpdate() override;
 
-        virtual void SetVSync(bool enabled) override;
-        virtual bool IsVSync() const override;
+        virtual inline void SetVSync(bool enabled) override;
+        virtual inline bool IsVSync() const override;
 
-        virtual uint32_t GetWidth() const override;
-        virtual uint32_t GetHeight() const override;
+        virtual inline uint32_t GetWidth() const override;
+        virtual inline uint32_t GetHeight() const override;
+
+        virtual inline bool IsMinimized() const override;
 
         virtual void SetWindowEventCallback(WindowEventCallbackFunc callback) override;
 
@@ -28,6 +32,7 @@ namespace Spark {
             uint32_t width;
             uint32_t height;
             bool vsync;
+            bool minimzed;
             WindowEventCallbackFunc callback;
         };
 

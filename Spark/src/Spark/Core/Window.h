@@ -29,13 +29,15 @@ namespace Spark
 
         virtual void OnUpdate()=0;
 
-        virtual void SetVSync(bool enabled) = 0;
-        virtual bool IsVSync() const = 0;
+        virtual inline void SetVSync(bool enabled) = 0;
+        virtual inline bool IsVSync() const = 0;
 
         virtual void SetWindowEventCallback(WindowEventCallbackFunc callback) = 0;
 
-        virtual uint32_t GetWidth() const = 0;
-        virtual uint32_t GetHeight() const = 0;
+        virtual inline uint32_t GetWidth() const = 0;
+        virtual inline uint32_t GetHeight() const = 0;
+
+        virtual inline bool IsMinimized() const = 0;
 
         static std::unique_ptr<Window> Create(const WindowProps& props = WindowProps());
     };
