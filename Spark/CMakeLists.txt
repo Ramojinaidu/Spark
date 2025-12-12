@@ -10,12 +10,12 @@ add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../vendor/imgui imgui)
 
 file(GLOB SPARK_MAIN "src/Spark/*")
 file(GLOB SPARK_CORE_SRC "src/Spark/Core/*")
-file(GLOB SPARK_GLFW_API_SRC "src/ExternalApi/glfw_api/*")
+file(GLOB SPARK_GLFW_API_SRC "src/Platform/MultiPlatform/*")
 
 list(APPEND SPARK_SRC ${SPARK_MAIN} ${SPARK_CORE_SRC} ${SPARK_GLFW_API_SRC})
 list(APPEND SPARK_INCLUDE_DIRS
     ${CMAKE_CURRENT_SOURCE_DIR}/../vendor/glfw/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/ExternalApi
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/Platform
     ${CMAKE_CURRENT_SOURCE_DIR}/../vendor/imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/../vendor/glad/include)
 
