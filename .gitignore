@@ -10,5 +10,3 @@ compile_commands.json
 Lib
 bin
 .clangd
-vendor/imgui
-vendor/glfw
