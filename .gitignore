@@ -1,0 +1,11 @@
+*.workspace
+Makefile
+*.json
+*.txt
+*.project
+*.mk
+.codelite/
+.cache/
+bin/
+bin-int/
+.build-debug
