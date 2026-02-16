@@ -9,20 +9,25 @@ files
 {
     "Src/**.cpp",
     "Src/**.h",
+	
 }
 
 
 includedirs
 {
     "Src",
+	"%{IncludeDirs.GLFW}",
+	"vendor/spdlog/include",
 }
 
 defines
 {
+	"GLFW_INCLUDE_NONE",
 }
 
 links
 {
+	"GLFW"
 }
 
 

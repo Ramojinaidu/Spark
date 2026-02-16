@@ -13,8 +13,8 @@ files
 
 includedirs
 {
-    "Src",
-	"%{wks.location}/Spark/Src"
+	"Src",
+	"%{wks.location}/Spark/Src",
 }
 
 links

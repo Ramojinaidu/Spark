@@ -13,8 +13,11 @@ configurations
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}"
 
-group "Dependencies"
+IncludeDirs = {}
+IncludeDirs["GLFW"] = "%{wks.location}/Spark/vendor/GLFW/include"
 
+group "Dependencies"
+include "Spark/vendor/GLFW"
 group ""
 
 include "Spark"
