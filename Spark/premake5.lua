@@ -5,6 +5,9 @@ staticruntime "off"
 targetdir("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
 objdir("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
+pchheader "pch.h"
+pchsource "pch.cpp"
+
 files
 {
     "Src/**.cpp",

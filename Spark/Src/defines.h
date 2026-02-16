@@ -38,5 +38,6 @@
 
 #include "Utils/Logger.h"
 #include "Utils/Assert.h"
+#include "../pch.h"
 
 #endif

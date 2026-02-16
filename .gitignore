@@ -10,3 +10,4 @@ bin/
 bin-int/
 .build-debug
 .build-release
+*.gch

@@ -4,7 +4,7 @@
 #include "../defines.h"
 
 #define FMT_HEADER_ONLY
-#include "spdlog/spdlog.h"
+#include <spdlog/spdlog.h>
 
 #define LOGGER_PATTERN "[%T][%=10l]: %v"
 
