@@ -1,9 +1,15 @@
+#include "Core/Application.h"
 #include <Spark.h>
 
 int main(){
 
 	SPARK_INIT_LOGGER()
-	Spark::Application();
+	Spark::ApplicationSpec specs = {"Spark"};
+	Spark::Application *test = new Spark::Application(specs);
+
+	test->Run();
+
+	delete test;
 
 	SPARK_INFO("INFO")
 	SPARK_DBUG("DEBUG")

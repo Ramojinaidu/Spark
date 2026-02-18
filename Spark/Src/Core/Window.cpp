@@ -1,16 +1,11 @@
-#include "Window.hp"
+#include "Window.h"
+#include "../ExternalApi/GlfwWindow/Glfw_Window.h"
 
+namespace Spark {
 
+std::unique_ptr<Window> Window::GetWindow(const WindowProps& props) {
 
-namespace Spark{
-
-	Window::Window(){
-	
-	}
-	
-	Window::~Window(){
-	
-	}
-
-
+    return std::make_unique<Glfw_Window>(props);
 }
+
+} // namespace Spark

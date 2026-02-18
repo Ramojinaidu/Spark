@@ -27,17 +27,13 @@
 	#else
 		#error "Platform not supported"
 	#endif
-	
-	#define SPARK_ENABLE_ASSERTS
+
+	#define SPARK_ENABLE_ASSERTS 1
 
 #else
 
-	#define SP_DEBUGBREAK()
+	#define SPARK_DEBUGBREAK()
 
 #endif
-
-#include "Utils/Logger.h"
-#include "Utils/Assert.h"
-#include "../pch.h"
 
 #endif

@@ -2,8 +2,6 @@
 #define LOGGER_H
 
 #include "../defines.h"
-
-#define FMT_HEADER_ONLY
 #include <spdlog/spdlog.h>
 
 #define LOGGER_PATTERN "[%T][%=10l]: %v"
@@ -11,7 +9,7 @@
 
 namespace Spark{
 class Logger{
-	
+
 public:
 	static void Init();
 	static std::shared_ptr<spdlog::logger>& GetCoreLogger(){ return s_CoreLogger;}
@@ -27,6 +25,7 @@ private:
 							::Spark::Logger::Init();
 
 
+// #define SPARK_INIT_LOGGER()  ::Spark::Logger::Init();
 #if SPARK_DEBUG
 
 	#define SPARK_INFO(...) 	::Spark::Logger::GetCoreLogger()->info(__VA_ARGS__);
@@ -37,11 +36,11 @@ private:
 
 #else
 
-	#define SPARK_INFO(...) 
-	#define SPARK_ERROR(...) 
-	#define SPARK_DBUG(...) 
-	#define SPARK_CRITICAL(...) 
-	#define SPARK_WARN(...) 
+	#define SPARK_INFO(...)
+	#define SPARK_ERROR(...)
+	#define SPARK_DBUG(...)
+	#define SPARK_CRITICAL(...)
+	#define SPARK_WARN(...)
 
 #endif
 

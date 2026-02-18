@@ -2,17 +2,16 @@
 #define ASSERT_H
 
 #include "../defines.h"
-
-#ifdef SPARK_ENABLE_ASSERTS
+#if SPARK_ENABLE_ASSERTS
 
 	#define SPARK_ASSERT(check,...) {if(!(check)){\
 										SPARK_ERROR(__VA_ARGS__)\
 										SPARK_DEBUGBREAK()\
 									}}
 
-#else 
+#else
 
-	#define SPARK_ASSERT() 
+	#define SPARK_ASSERT(check,...)
 
 #endif
 

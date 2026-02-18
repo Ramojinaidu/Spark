@@ -1,7 +1,6 @@
 *.workspace
 Makefile
 *.json
-*.txt
 *.project
 *.mk
 .codelite/
@@ -11,3 +10,9 @@ bin-int/
 .build-debug
 .build-release
 *.gch
+
+.zed/
+build/
+CMakeFiles
+*_install.cmake
+*Cache.txt
