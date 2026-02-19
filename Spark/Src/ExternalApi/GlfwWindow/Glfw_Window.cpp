@@ -1,5 +1,8 @@
 #include "Glfw_Window.h"
 #include "Core/Window.h"
+#include "Events/ApplicationEvents.h"
+#include "Events/KeyBoardEvents.h"
+#include "Events/MouseEvents.h"
 #include "GLFW/glfw3.h"
 
 namespace Spark {
@@ -8,10 +11,12 @@ GLFWwindow* Glfw_Window::m_Window = nullptr;
 
 Glfw_Window::Glfw_Window(const WindowProps& props) {
 
-    WindowData.Title = props.Title;
-    WindowData.Width = props.Width;
-    WindowData.Height = props.Height;
-    WindowData.VSync = props.VSync;
+    m_WindowData.Title = props.Title;
+    m_WindowData.Width = props.Width;
+    m_WindowData.Height = props.Height;
+    m_WindowData.VSync = props.VSync;
+    m_WindowData.callbackfunc = nullptr;
+    m_WindowData.Minimized = false;
 
     if (!glfwInit()) {
         glfwTerminate();
@@ -21,9 +26,84 @@ Glfw_Window::Glfw_Window(const WindowProps& props) {
                                 nullptr, nullptr);
 
     glfwMakeContextCurrent(m_Window);
+    glfwSetWindowUserPointer(m_Window, &m_WindowData);
 
-    glfwSetWindowUserPointer(m_Window, &WindowData);
+    glfwSetWindowSizeCallback(
+        m_Window, [](GLFWwindow* window, int width, int height) {
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+            data.Width = width;
+            data.Height = height;
+
+            WindowResizeEvent event(width, height);
+            data.callbackfunc(event);
+        });
+
+
+    glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window)
+		{
+			WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+			WindowCloseEvent event;
+			data.callbackfunc(event);
+		});
+
+    glfwSetWindowIconifyCallback(m_Window, [](GLFWwindow* window , int minimized){
+        WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+        data.Width = 0;
+        data.Height = 0;
+        data.Minimized = minimized;
+
+        WindowMinimizeEvent event(minimized);
+        data.callbackfunc(event);
+    });
+
+    glfwSetKeyCallback(m_Window, [](GLFWwindow* window,
+        int key,
+        int scancode,
+        int action,
+        int mods){
+
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+            switch (action) {
+
+                case GLFW_PRESS:{
+                    KeyPressedEvent event(key,scancode,mods);
+                    data.callbackfunc(event);
+                    break;
+                }
+
+                case GLFW_RELEASE:{
+                    KeyRelaseEvent event(key,scancode,mods);
+                    data.callbackfunc(event);
+                    break;
+                }
+            }
+
+    });
+
+    glfwSetMouseButtonCallback(m_Window,[](GLFWwindow* window,
+        int button,
+        int action,
+        int mods){
+            WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+            MouseButtonEvent  event(button,action,mods);
+            data.callbackfunc(event);
+    });
+
+    glfwSetScrollCallback(m_Window, [](GLFWwindow* window,
+            double xoffset, double yoffset){
+                WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+                MouseScrollEvent event(xoffset,yoffset);
+                data.callbackfunc(event);
+    });
+
+    glfwSetCursorPosCallback(m_Window,[](GLFWwindow* window,
+            double xpos, double ypos){
+                WindowData& data = *static_cast<WindowData*>(glfwGetWindowUserPointer(window));
+                MouseMoveEvent event(xpos,ypos);
+                data.callbackfunc(event);
+    });
 }
+
 
 Glfw_Window::~Glfw_Window() {
 
@@ -37,8 +117,15 @@ void Glfw_Window::OnUpdate() {
     glfwPollEvents();
 }
 
-bool Glfw_Window::IsVSync() const { return WindowData.VSync; }
+bool Glfw_Window::IsVSync() const { return m_WindowData.VSync; }
 
-void Glfw_Window::SetVSync(bool set) { WindowData.VSync = set; }
+void Glfw_Window::SetVSync(bool set) {
+    m_WindowData.VSync = set;
+    glfwSwapInterval(set ? 1 : 0);
+}
+
+void Glfw_Window::SetWindowCallBacksFunc(const WindowCallbackFunc& func) {
+    m_WindowData.callbackfunc = func;
+}
 
 } // namespace Spark

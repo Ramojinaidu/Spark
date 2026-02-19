@@ -3,6 +3,8 @@
 
 #include "../defines.h"
 #include "../pch.h"
+#include "Events/Events.h"
+#include <functional>
 
 namespace Spark {
 
@@ -19,8 +21,9 @@ struct WindowProps {
 };
 
 class Window {
-
   public:
+    using WindowCallbackFunc = std::function<void(Event&)>;
+
     virtual ~Window() = default;
 
     virtual uint32_t GetWidth() const = 0;
@@ -28,6 +31,8 @@ class Window {
 
     virtual void SetVSync(bool set) = 0;
     virtual bool IsVSync() const = 0;
+
+    virtual void SetWindowCallBacksFunc(const WindowCallbackFunc& func) = 0;
 
     virtual void OnUpdate() = 0;
 

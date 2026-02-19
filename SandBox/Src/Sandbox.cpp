@@ -10,12 +10,5 @@ int main(){
 	test->Run();
 
 	delete test;
-
-	SPARK_INFO("INFO")
-	SPARK_DBUG("DEBUG")
-	SPARK_ERROR("ERROR")
-	SPARK_CRITICAL("CRITICAL")
-	SPARK_WARN("WARN")
-
 	return 0;
 }

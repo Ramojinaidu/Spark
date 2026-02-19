@@ -2,6 +2,7 @@
 #define APPLICATION_H
 
 #include "../pch.h"
+#include "Events/ApplicationEvents.h"
 #include "Window.h"
 
 
@@ -21,11 +22,16 @@ namespace Spark{
 		void Run();
 		void stop();
 
+		void OnEvent(Event& event);
+        bool OnWindowClose(WindowCloseEvent& event);
+        bool OnWindowMinimize(WindowMinimizeEvent& event);
+
 		static Application& Get(){ return *s_Instance; }
 
 	private:
 
 		bool m_Running = true;
+		bool m_Minimized = false;
 		static std::unique_ptr<Window> m_Window;
 
 	private:

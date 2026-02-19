@@ -4,14 +4,17 @@
 #include "../defines.h"
 #if SPARK_ENABLE_ASSERTS
 
-	#define SPARK_ASSERT(check,...) {if(!(check)){\
-										SPARK_ERROR(__VA_ARGS__)\
-										SPARK_DEBUGBREAK()\
-									}}
+#define SPARK_ASSERT(check, ...)                                               \
+    {                                                                          \
+        if (!(check)) {                                                        \
+            SPARK_ERROR(__VA_ARGS__)                                           \
+            SPARK_DEBUGBREAK()                                                 \
+        }                                                                      \
+    }
 
 #else
 
-	#define SPARK_ASSERT(check,...)
+#define SPARK_ASSERT(check, ...)
 
 #endif
 
