@@ -4,3 +4,7 @@
 [submodule "Spark/vendor/spdlog"]
 	path = Spark/vendor/spdlog
 	url = https://github.com/gabime/spdlog.git
+[submodule "Spark/vendor/imgui"]
+	path = Spark/vendor/imgui
+	url = git@github.com:Ramojinaidu/imgui.git
+	branch = docking

@@ -3,7 +3,6 @@
 
 #include "../../Core/Window.h"
 #include "../pch.h"
-
 #include <GLFW/glfw3.h>
 
 namespace Spark {
@@ -21,6 +20,8 @@ class Glfw_Window : public Window {
     virtual void SetWindowCallBacksFunc(const WindowCallbackFunc& func) override;
 
     virtual void OnUpdate() override;
+
+    virtual void* GetNativeWindow() override;
 
   private:
     struct WindowData {

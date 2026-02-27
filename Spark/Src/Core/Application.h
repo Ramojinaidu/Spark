@@ -2,43 +2,48 @@
 #define APPLICATION_H
 
 #include "../pch.h"
+#include "Core/Layers.h"
 #include "Events/ApplicationEvents.h"
+#include "ExternalApi/Imgui_ui/ImguiLayer.h"
 #include "Window.h"
 
+namespace Spark {
 
-namespace Spark{
+struct ApplicationSpec {
 
-	struct ApplicationSpec{
+    WindowProps window;
+    ImguiLayerSpecs Imgui;
+};
 
-		ApplicationSpec(std::string_view title = "Spark"):Title(title){}
-		std::string Title;
-	};
+class Application {
+  public:
+    Application(const ApplicationSpec& spec = ApplicationSpec());
+    ~Application();
 
-	class Application{
-	public:
-		Application(const ApplicationSpec& spec = ApplicationSpec());
-		~Application();
+    void Run();
+    void stop();
 
-		void Run();
-		void stop();
+    void OnEvent(Event& event);
+    bool OnWindowClose(WindowCloseEvent& event);
+    bool OnWindowMinimize(WindowMinimizeEvent& event);
 
-		void OnEvent(Event& event);
-        bool OnWindowClose(WindowCloseEvent& event);
-        bool OnWindowMinimize(WindowMinimizeEvent& event);
+    std::shared_ptr<Window> GetWindow();
 
-		static Application& Get(){ return *s_Instance; }
+    static Application& Get() { return *s_Instance; }
+  private:
+    bool m_Running = true;
+    bool m_Minimized = false;
+    ImguiLayer* m_ImguiLayer;
+    LayerStack m_LayerStack;
+    static std::shared_ptr<Window> m_Window;
 
-	private:
+  private:
+    const ApplicationSpec& m_Specifications;
+    static Application* s_Instance;
+};
 
-		bool m_Running = true;
-		bool m_Minimized = false;
-		static std::unique_ptr<Window> m_Window;
+Application* Create();
 
-	private:
-		const ApplicationSpec& m_Specifications;
-		static Application* s_Instance;
-
-	};
-}
+} // namespace Spark
 
 #endif

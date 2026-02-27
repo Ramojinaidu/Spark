@@ -1,10 +1,8 @@
 #ifndef Window_H
 #define Window_H
 
-#include "../defines.h"
 #include "../pch.h"
 #include "Events/Events.h"
-#include <functional>
 
 namespace Spark {
 
@@ -36,8 +34,12 @@ class Window {
 
     virtual void OnUpdate() = 0;
 
-    static std::unique_ptr<Window>
+
+    static std::shared_ptr<Window>
     GetWindow(const WindowProps& props = WindowProps());
+
+    virtual void* GetNativeWindow() =0;
+
 };
 
 } // namespace Spark
