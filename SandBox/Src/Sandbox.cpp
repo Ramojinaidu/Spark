@@ -1,14 +1,20 @@
 #include "Core/Application.h"
 #include <Spark.h>
 
-int main(){
 
-	SPARK_INIT_LOGGER()
-	Spark::ApplicationSpec specs = {"Spark"};
-	Spark::Application *test = new Spark::Application(specs);
+class Sandbox : public Spark::Application {
 
-	test->Run();
+  public:
+    Sandbox(const Spark::ApplicationSpec& specs = Spark::ApplicationSpec())
+        : Application(specs) {}
+};
 
-	delete test;
-	return 0;
+// SPARK_INIT_APPLICATION(Sandbox())
+Spark::Application* Spark::Create(){
+    ApplicationSpec spec;
+    spec.window.Title = "SandBox";
+    spec.window.VSync = true;
+    spec.Imgui.EnableImgui = true;
+    spec.Imgui.EnableDockSpace = true;
+    return new Sandbox(spec);
 }
