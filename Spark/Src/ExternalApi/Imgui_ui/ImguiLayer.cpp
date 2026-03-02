@@ -1,10 +1,10 @@
 #include "ImguiLayer.h"
 #include "Core/Application.h"
 #include "Core/Layers.h"
+#include "GLFW/glfw3.h"
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "glad/glad.h"
-#include "GLFW/glfw3.h"
 #include "imgui.h"
 
 namespace Spark {
@@ -29,8 +29,10 @@ void ImguiLayer::OnAttach() {
     ImGuiIO& io = ImGui::GetIO();
     (void)io;
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
-    if(m_EnableDocking) io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-    if(m_EnableViewPorts) io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+    if (m_EnableDocking)
+        io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    if (m_EnableViewPorts)
+        io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
     // io.ConfigViewportsNoAutoMerge = true;
     // io.ConfigViewportsNoTaskBarIcon = true;
 
@@ -77,5 +79,9 @@ void ImguiLayer::OnEvent(Event& e) {
     e.SetHandled(io.WantCaptureKeyboard);
     e.SetHandled(io.WantCaptureMouse);
 }
+
+void ImguiLayer::OnImGuiRender() {}
+
+void ImguiLayer::OnUpdate() {}
 
 } // namespace Spark

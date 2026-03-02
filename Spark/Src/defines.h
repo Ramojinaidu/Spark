@@ -30,13 +30,12 @@
 
 	#define SPARK_ENABLE_ASSERTS 1
 
+
 #else
 
 	#define SPARK_DEBUGBREAK()
 
 #endif
-
-
 
 #define SP_BIND_FUNC(func) [this](auto&&... args) -> decltype(auto) { return this->func(std::forward<decltype(args)>(args)...); }
 

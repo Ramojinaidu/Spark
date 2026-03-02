@@ -1,7 +1,7 @@
 #ifndef IMGUI_LAYER_H
 #define IMGUI_LAYER_H
 #include "Core/Layers.h"
-#include <imgui.h>
+#include "imgui.h"
 
 namespace Spark {
 
@@ -19,11 +19,8 @@ class ImguiLayer : public Layer {
     void End();
     virtual void OnAttach() override;
     virtual void OnDetach() override;
-    virtual void OnUpdate() override{}
-    virtual void OnImGuiRender() override{
-        bool show = true;
-        ImGui::ShowDemoWindow(&show);
-    }
+    virtual void OnUpdate() override;
+    virtual void OnImGuiRender() override;
     virtual void OnEvent(Event& e) override;
 
   private:

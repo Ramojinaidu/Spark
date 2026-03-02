@@ -1,15 +1,18 @@
-#include "Core/Application.h"
 #include <Spark.h>
+#include "SandboxLayerTest.h"
 
 
 class Sandbox : public Spark::Application {
 
   public:
     Sandbox(const Spark::ApplicationSpec& specs = Spark::ApplicationSpec())
-        : Application(specs) {}
+        : Application(specs) {
+
+            Spark::Layer* test = new TestLayer();
+            PushLayer(test);
+        }
 };
 
-// SPARK_INIT_APPLICATION(Sandbox())
 Spark::Application* Spark::Create(){
     ApplicationSpec spec;
     spec.window.Title = "SandBox";

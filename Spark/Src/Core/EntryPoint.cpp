@@ -1,5 +1,3 @@
-#ifndef ENTRYPOINT_H
-#define ENTRYPOINT_H
 #include "Core/Application.h"
 
 extern Spark::Application* Spark::Create();
@@ -12,8 +10,6 @@ int main(){
     app->Run();
 
     delete app;
-
+    // SPARK_MEMORY_LEAK_REPORT()
     return 0;
 }
-
-#endif

@@ -6,7 +6,6 @@
 #include "Events/ApplicationEvents.h"
 #include "ExternalApi/Imgui_ui/ImguiLayer.h"
 #include "Window.h"
-
 namespace Spark {
 
 struct ApplicationSpec {
@@ -27,9 +26,15 @@ class Application {
     bool OnWindowClose(WindowCloseEvent& event);
     bool OnWindowMinimize(WindowMinimizeEvent& event);
 
+    void PushLayer(Layer*);
+    void PushOverlay(Layer*);
+
+    void PopLayer(Layer*);
+    void PopOverlay(Layer*);
+
     std::shared_ptr<Window> GetWindow();
 
-    static Application& Get() { return *s_Instance; }
+    static Application& Get();
   private:
     bool m_Running = true;
     bool m_Minimized = false;

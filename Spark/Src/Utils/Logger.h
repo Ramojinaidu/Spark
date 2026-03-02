@@ -1,10 +1,10 @@
 #ifndef LOGGER_H
 #define LOGGER_H
 
-#include "../defines.h"
 #include <spdlog/spdlog.h>
 
-#define LOGGER_PATTERN "[%T][%=10l]: %v"
+#define CONSOLE_LOGGER_PATTERN "[%T][%=10l]: %v"
+#define FILE_LOGGER_PATTERN "%v"
 
 namespace Spark {
 class Logger {
@@ -21,28 +21,26 @@ class Logger {
 
 } // namespace Spark
 
-#define SPARK_INIT_LOGGER()                                                    \
-    spdlog::set_pattern(LOGGER_PATTERN);                                       \
-    spdlog::info("SPARK LOGGER INITIALIZED");                                  \
-    ::Spark::Logger::Init();
+#define SPARK_INIT_LOGGER() ::Spark::Logger::Init();
 
-// #define SPARK_INIT_LOGGER()  ::Spark::Logger::Init();
 #if SPARK_DEBUG
 
-#define SPARK_INFO(...) ::Spark::Logger::GetCoreLogger()->info(__VA_ARGS__);
-#define SPARK_ERROR(...) ::Spark::Logger::GetCoreLogger()->error(__VA_ARGS__);
+#define SPARK_TRACE(...) ::Spark::Logger::GetCoreLogger()->trace(__VA_ARGS__);
 #define SPARK_DBUG(...) ::Spark::Logger::GetCoreLogger()->debug(__VA_ARGS__);
+#define SPARK_INFO(...) ::Spark::Logger::GetCoreLogger()->info(__VA_ARGS__);
+#define SPARK_WARN(...) ::Spark::Logger::GetCoreLogger()->warn(__VA_ARGS__);
+#define SPARK_ERROR(...) ::Spark::Logger::GetCoreLogger()->error(__VA_ARGS__);
 #define SPARK_CRITICAL(...)                                                    \
     ::Spark::Logger::GetCoreLogger()->critical(__VA_ARGS__);
-#define SPARK_WARN(...) ::Spark::Logger::GetCoreLogger()->warn(__VA_ARGS__);
 
 #else
 
-#define SPARK_INFO(...)
-#define SPARK_ERROR(...)
+#define SPARK_TRACE(...)
 #define SPARK_DBUG(...)
-#define SPARK_CRITICAL(...)
+#define SPARK_INFO(...)
 #define SPARK_WARN(...)
+#define SPARK_ERROR(...)
+#define SPARK_CRITICAL(...)
 
 #endif
 

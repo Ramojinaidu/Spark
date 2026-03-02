@@ -1,7 +1,7 @@
 #ifndef GLFWWINDOW_H
 #define GLFWWINDOW_H
 
-#include "../../Core/Window.h"
+#include "Core/Window.h"
 #include "../pch.h"
 #include <GLFW/glfw3.h>
 

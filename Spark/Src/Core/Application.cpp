@@ -3,8 +3,6 @@
 #include "Core/Window.h"
 #include "ExternalApi/Imgui_ui/ImguiLayer.h"
 #include "Utils/Assert.h"
-#include "Utils/Logger.h"
-#include "defines.h"
 
 namespace Spark {
 
@@ -35,7 +33,6 @@ Application::~Application() {}
 void Application::Run() {
 
     while (m_Running) {
-        m_Window->OnUpdate();
         if (!m_Minimized) {
 
             for (Layer* it : m_LayerStack) {
@@ -50,12 +47,11 @@ void Application::Run() {
                 m_ImguiLayer->End();
             }
         }
+        m_Window->OnUpdate();
     }
 }
 
 void Application::OnEvent(Event& e) {
-    SPARK_DBUG(e.ToString())
-
     EventDispatcher dispatcher(e);
     dispatcher.Dispatch<WindowCloseEvent>(
         SP_BIND_FUNC(Application::OnWindowClose));
@@ -83,6 +79,29 @@ bool Application::OnWindowMinimize(WindowMinimizeEvent& event) {
 
 void Application::stop() { m_Running = false; }
 
+void Application::PushLayer(Layer* layer) {
+    m_LayerStack.PushLayer(layer);
+    layer->OnAttach();
+}
+
+void Application::PushOverlay(Layer* layer) {
+    m_LayerStack.PushOverlay(layer);
+    layer->OnAttach();
+}
+
+void Application::PopLayer(Layer* layer) {
+    m_LayerStack.PopLayer(layer);
+    layer->OnDetach();
+}
+
+void Application::PopOverlay(Layer* layer) {
+    m_LayerStack.PopOverlay(layer);
+    layer->OnDetach();
+}
 std::shared_ptr<Window> Application::GetWindow() { return m_Window; }
+
+Application& Application::Get(){
+    return *s_Instance;
+}
 
 } // namespace Spark
