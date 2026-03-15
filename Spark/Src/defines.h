@@ -2,8 +2,11 @@
 #define DEFINES_H
 
 #ifdef _WIN32
-
-	#error "Platform not supported"
+    #ifdef _WIN64
+        #define SPARK_WINDOWS_PLATFORM
+    #else
+        #error "x86 Builds not supported"
+    #endif
 
 #elif defined(__APPLE__) || defined(__MACH__)
 
@@ -24,6 +27,10 @@
 	#ifdef SPARK_LINUX_PLATFORM
 		#include <signal.h>
 		#define SPARK_DEBUGBREAK() raise(SIGTRAP);
+
+	#elif SPARK_WINDOWS_PLATFORM
+	    #define SPARK_DEBUGBREAK() __debugbreak();
+
 	#else
 		#error "Platform not supported"
 	#endif
