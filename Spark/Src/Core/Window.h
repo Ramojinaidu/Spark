@@ -12,10 +12,13 @@ struct WindowProps {
     uint32_t Height;
     std::string Title;
     bool VSync;
+    bool Maximize;
+    bool Resizable;
 
     WindowProps(const std::string& title = "Spark Window", uint32_t width = 900,
-                uint32_t height = 600, bool vsync = true)
-        : Width(width), Height(height), Title(title), VSync(vsync) {}
+                uint32_t height = 600, bool vsync = true, bool maximized = true,bool resizable = true)
+        : Width(width), Height(height), Title(title), VSync(vsync),
+          Maximize(maximized),Resizable(resizable) {}
 };
 
 class Window {
@@ -34,12 +37,10 @@ class Window {
 
     virtual void OnUpdate() = 0;
 
-
     static std::shared_ptr<Window>
     GetWindow(const WindowProps& props = WindowProps());
 
-    virtual void* GetNativeWindow() =0;
-
+    virtual void* GetNativeWindow() = 0;
 };
 
 } // namespace Spark

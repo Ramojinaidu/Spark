@@ -10,6 +10,7 @@ bin-int/
 .build-debug
 .build-release
 *.gch
+Logs/
 
 .zed/
 build/

@@ -26,7 +26,9 @@ class Glfw_Window : public Window {
   private:
     struct WindowData {
         std::string Title;
+        bool Resizable;
         bool Minimized;
+        bool Maximized;
         bool VSync;
         uint32_t Width;
         uint32_t Height;

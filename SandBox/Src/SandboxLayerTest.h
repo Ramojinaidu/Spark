@@ -1,6 +1,7 @@
 #ifndef SANDBOXLAYERTEST_H
 #define SANDBOXLAYERTEST_H
 
+#include "TextEditor.h"
 #include <Spark.h>
 
 class TestLayer : public Spark::Layer {
@@ -14,6 +15,10 @@ class TestLayer : public Spark::Layer {
     virtual void OnUpdate() override;
     virtual void OnImGuiRender() override;
     virtual void OnEvent(Spark::Event& e) override;
+    const char* fileToEdit = "LICENSE";
+    TextEditor editor;
+
+
 };
 
 #endif

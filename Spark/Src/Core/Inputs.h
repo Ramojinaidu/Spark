@@ -8,8 +8,8 @@ namespace Spark {
 
 class Input {
   public:
-    Input() = default;
-    ~Input() = default;
+    Input() = delete;
+    ~Input() = delete;
 
     static bool IsKeyState(int key, int state);
     static bool IsMouseKeyState(int key, int state);

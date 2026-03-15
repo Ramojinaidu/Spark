@@ -18,6 +18,8 @@ Glfw_Window::Glfw_Window(const WindowProps& props) {
     m_WindowData.Width = props.Width;
     m_WindowData.Height = props.Height;
     m_WindowData.VSync = props.VSync;
+    m_WindowData.Resizable = props.Resizable;
+    m_WindowData.Maximized = props.Maximize;
     m_WindowData.callbackfunc = nullptr;
     m_WindowData.Minimized = false;
 
@@ -25,14 +27,16 @@ Glfw_Window::Glfw_Window(const WindowProps& props) {
         glfwTerminate();
     }
 
-    m_Window = glfwCreateWindow(props.Width, props.Height, props.Title.c_str(),
-                                nullptr, nullptr);
-    SetVSync(true);
-
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE); // 3.2+ only
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GLFW_TRUE);         // 3.0+ only
+    // glfwWindowHint(GLFW_MAXIMIZED,m_WindowData.Maximized?GLFW_TRUE:GLFW_FALSE);
+    glfwWindowHint(GLFW_RESIZABLE, m_WindowData.Resizable?GLFW_TRUE:GLFW_FALSE);
+
+    m_Window = glfwCreateWindow(props.Width, props.Height, props.Title.c_str(),
+                                nullptr, nullptr);
+
 
     glfwMakeContextCurrent(m_Window);
     glfwSetWindowUserPointer(m_Window, &m_WindowData);
@@ -112,6 +116,9 @@ Glfw_Window::Glfw_Window(const WindowProps& props) {
             MouseMoveEvent event(xpos, ypos);
             data.callbackfunc(event);
         });
+
+    if(m_WindowData.Maximized)
+        glfwMaximizeWindow(m_Window);
 }
 
 Glfw_Window::~Glfw_Window() {
